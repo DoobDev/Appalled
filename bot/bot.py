@@ -10,10 +10,11 @@ from discord.ext.commands.errors import NoEntryPointError
 from discord_slash import SlashCommand
 
 from dotenv import load_dotenv
+
 load_dotenv()
 COGS = [path.split(os.sep)[-1][:-3] for path in glob("./cogs/*.py")]
 
-with open("./config.json", 'r') as config_file:
+with open("./config.json", "r") as config_file:
     config = json.load(config_file)
 
 log_level = logging.DEBUG if config["dev_mode"] else logging.INFO
@@ -51,18 +52,18 @@ class Bot(Bot):
 
 
         super().__init__(
-            command_prefix='/',
-            owner_ids=config['OwnerIDs'],
+            command_prefix="/",
+            owner_ids=config["OwnerIDs"],
             intents=intents,
-            case_insensitive=True
+            case_insensitive=True,
         )
 
         self.launch()
 
     def load_cogs(self):
-        self.load_extension('create_user')
+        self.load_extension("create_user")
         print("Loaded `create_user`")
-        self.load_extension('play')
+        self.load_extension("play")
         print("Loaded `play`")
 
         # for cog in COGS:
@@ -73,6 +74,7 @@ class Bot(Bot):
         self.load_cogs()
 
         print("Blackjack bot started!")
-        self.run(os.environ.get('TOKEN'))
+        self.run(os.environ.get("TOKEN"))
+
 
 bot = Bot()

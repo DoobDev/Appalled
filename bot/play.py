@@ -19,5 +19,6 @@ class Play(Cog):
     async def play_blackjack(self, ctx: SlashContext):
         await b.play(ctx)
 
+
 def setup(bot):
     bot.add_cog(Play(bot))

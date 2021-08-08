@@ -91,6 +91,7 @@ class Player:
 
         await ctx.send("Score: " + str(self.score))
 
+
 class Blackjack:
     def __init__(self):
         self.deck = Deck()
