@@ -1,3 +1,4 @@
 {
-    "OwnerIDs" : []
+    "OwnerIDs" : [],
+    "dev_mode": false
 }
