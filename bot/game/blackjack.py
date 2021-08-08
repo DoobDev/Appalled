@@ -3,6 +3,7 @@
 from models.deck import Deck
 from models.player import Player
 
+
 class Blackjack:
     def __init__(self):
         self.deck = Deck()
@@ -21,7 +22,7 @@ class Blackjack:
             if d_status == 1:
                 print("Dealer has a blackjack!")
             return 1
-        
+
         cmd = ""
         while cmd != "Stand":
             bust = 0
@@ -56,6 +57,7 @@ class Blackjack:
             print("Dealer wins.")
         elif self.dealer.check_score() < self.player.check_score():
             print("Player wins.")
-        
+
+
 b = Blackjack()
 b.play()
