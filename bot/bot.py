@@ -50,7 +50,6 @@ class Bot(Bot):
         intents.members = False
         intents.presences = False
 
-
         super().__init__(
             command_prefix="/",
             owner_ids=config["OwnerIDs"],
