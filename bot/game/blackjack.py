@@ -127,7 +127,9 @@ class Blackjack:
 
         bust = 0
         await ctx.send("Hit or Stand?", hidden=True)
-        cmd = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+        cmd = await self.bot.wait_for(
+            "message", check=lambda message: message.author == ctx.author
+        )
 
         while cmd.content.lower() != "stand":
             if cmd.content.lower() == "hit":
@@ -138,7 +140,9 @@ class Blackjack:
                 return 1
             else:
                 await ctx.send("Hit or Stand?", hidden=True)
-                cmd = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+                cmd = await self.bot.wait_for(
+                    "message", check=lambda message: message.author == ctx.author
+                )
 
         await self.dealer.show(ctx)
 
