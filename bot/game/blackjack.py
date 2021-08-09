@@ -6,7 +6,7 @@ from discord_slash import cog_ext
 from discord_slash.context import ComponentContext
 from discord_slash.utils.manage_components import create_button, create_actionrow, wait_for_component
 from discord_slash.model import ButtonStyle
-from bot.bot import SlashCommand
+#from bot.bot import SlashCommand
 
 class Card:
     def __init__(self, value, suit):
@@ -98,35 +98,6 @@ class Blackjack:
         self.deck.generate()
         self.player = Player(False, self.deck)
         self.dealer = Player(True, self.deck)
-    
-    async def hit_or_stand(self, ctx):
-        cmd  = ""
-        while cmd != "Stand":
-            bust = 0
-            
-            buttons = [create_button(
-                style=ButtonStyle.green,
-                label="Hit",
-                custom_id="Hit",
-            ), create_button(
-                style=ButtonStyle.red,
-                label="Stand",
-                custom_id="Stand",
-            )]
-
-            action_row = create_actionrow(*buttons)
-
-            await ctx.send("Hit or Stand?", components=[action_row])
-
-        
-    @SlashCommand.component_callback()
-    async def Hit(self, ctx: ComponentContext):
-        self.player.hit()
-        await self.player.show(ctx)
-        
-    @SlashCommand.component_callback()
-    async def Stand(ctx: ComponentContext):
-        pass
 
     async def play(self, ctx):
         p_status = self.player.deal()
