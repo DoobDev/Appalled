@@ -10,8 +10,11 @@ from discord_slash.utils.manage_components import (
     wait_for_component,
 )
 from discord_slash.model import ButtonStyle
-#from bot.bot import SlashCommand
 
+
+# TODO: Add buttons for `Hit/Stand`
+# TODO: Implement gaining XP based off if you win.
+# TODO: Make embeds.
 
 class Card:
     def __init__(self, value, suit):
@@ -30,7 +33,7 @@ class Card:
 
     async def show(self, ctx):
         print(self.suit + self.value)
-        await ctx.send(f"{self.suit} + {self.value}")
+        await ctx.send(f"{self.suit} + {self.value}", hidden=True)
 
 
 class Deck:
@@ -91,14 +94,14 @@ class Player:
 
     async def show(self, ctx):
         if self.isDealer:
-            await ctx.send("Dealer's Cards")
+            await ctx.send("Dealer's Cards", hidden=True)
         else:
-            await ctx.send("Player's Cards")
+            await ctx.send("Player's Cards", hidden=True)
 
         for i in self.cards:
             await i.show(ctx)
 
-        await ctx.send("Score: " + str(self.score))
+        await ctx.send("Score: " + str(self.score), hidden=True)
 
 
 class Blackjack:
@@ -115,34 +118,42 @@ class Blackjack:
         await self.player.show(ctx)
 
         if p_status == 1:
-            await ctx.send("Player has a blackjack!")
+            await ctx.send("Player has a blackjack!", hidden=True)
             if d_status == 1:
-                await ctx.send("Dealer has a blackjack!")
+                await ctx.send("Dealer has a blackjack!", hidden=True)
             return 1
 
-        await self.hit_or_stand(ctx)
+        cmd = ""
+        while cmd != "Stand":
+            bust = 0
+            cmd = input("Hit or Stand? ")
+
+            if cmd == "Hit":
+                bust = self.player.hit()
+                await self.player.show(ctx)
+            if bust == 1:
+                await ctx.send("Player busted.", hidden=True)
+                return 1
 
         await self.dealer.show(ctx)
 
         if d_status == 1:
-            await ctx.send("Dealer got blackjack!")
+            await ctx.send("Dealer got blackjack!", hidden=True)
             return 1
 
         while self.dealer.check_score() > 17:
             if self.dealer.hit() == 1:
                 self.dealer.show(ctx)
-                await ctx.send("Dealer busted.")
+                await ctx.send("Dealer busted, Player wins!", hidden=True)
                 return 1
-            else:
-                await ctx.send("Dealer Hit..")
             await self.dealer.show(ctx)
 
         if self.dealer.check_score() == self.player.check_score():
-            await ctx.send("Tie!")
+            await ctx.send("Tie!", hidden=True)
         elif self.dealer.check_score() > self.player.check_score():
-            await ctx.send("Dealer wins.")
+            await ctx.send("Dealer wins.", hidden=True)
         elif self.dealer.check_score() < self.player.check_score():
-            await ctx.send("Player wins.")
+            await ctx.send("Player wins.", hidden=True  )
 
 
 b = Blackjack()
