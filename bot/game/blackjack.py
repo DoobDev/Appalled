@@ -16,6 +16,7 @@ from discord_slash.model import ButtonStyle
 # TODO: Implement gaining XP based off if you win.
 # TODO: Make embeds.
 
+
 class Card:
     def __init__(self, value, suit):
         self.cost = value
@@ -153,7 +154,7 @@ class Blackjack:
         elif self.dealer.check_score() > self.player.check_score():
             await ctx.send("Dealer wins.", hidden=True)
         elif self.dealer.check_score() < self.player.check_score():
-            await ctx.send("Player wins.", hidden=True  )
+            await ctx.send("Player wins.", hidden=True)
 
 
 b = Blackjack()
