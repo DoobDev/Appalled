@@ -10,7 +10,8 @@ from discord_slash.utils.manage_components import (
     wait_for_component,
 )
 from discord_slash.model import ButtonStyle
-#from bot.bot import SlashCommand
+
+# from bot.bot import SlashCommand
 
 
 class Card:
