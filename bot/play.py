@@ -9,7 +9,7 @@ from discord_slash.utils.manage_components import (
     create_select_option,
     wait_for_component,
 )
-from game.blackjack import b
+from game.blackjack import Blackjack as b
 
 import json
 
@@ -27,7 +27,7 @@ class Play(Cog):
         name="play", description="Play some blackjack!", guild_ids=[702352937980133386]
     )
     async def play_blackjack(self, ctx: SlashContext):
-        await b.play(ctx)
+        await b(self.bot).play(ctx)
 
 
 def setup(bot):

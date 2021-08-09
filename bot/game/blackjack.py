@@ -106,11 +106,12 @@ class Player:
 
 
 class Blackjack:
-    def __init__(self):
+    def __init__(self, bot):
         self.deck = Deck()
         self.deck.generate()
         self.player = Player(False, self.deck)
         self.dealer = Player(True, self.deck)
+        self.bot = bot
 
     async def play(self, ctx):
         p_status = self.player.deal()
@@ -124,17 +125,20 @@ class Blackjack:
                 await ctx.send("Dealer has a blackjack!", hidden=True)
             return 1
 
-        cmd = ""
-        while cmd != "Stand":
-            bust = 0
-            cmd = input("Hit or Stand? ")
+        bust = 0
+        await ctx.send("Hit or Stand?", hidden=True)
+        cmd = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
 
-            if cmd == "Hit":
+        while cmd.content.lower() != "stand":
+            if cmd.content.lower() == "hit":
                 bust = self.player.hit()
                 await self.player.show(ctx)
             if bust == 1:
                 await ctx.send("Player busted.", hidden=True)
                 return 1
+            else:
+                await ctx.send("Hit or Stand?", hidden=True)
+                cmd = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
 
         await self.dealer.show(ctx)
 
@@ -157,5 +161,4 @@ class Blackjack:
             await ctx.send("Player wins.", hidden=True)
 
 
-b = Blackjack()
 # b.play()
