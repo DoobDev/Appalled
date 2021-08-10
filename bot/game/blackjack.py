@@ -23,7 +23,7 @@ class Card:
         self.value = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"][
             value - 1
         ]
-        self.suit = "❤️◆☘️♠️"[suit]
+        self.suit = "♠♥♦🍀"[suit]
 
     def price(self):
         if self.cost >= 10:
@@ -34,7 +34,8 @@ class Card:
 
     async def show(self, ctx):
         print(self.suit + self.value)
-        await ctx.send(f"{self.suit} + {self.value}", hidden=True)
+        #await ctx.send(f"{self.suit} + {self.value}", hidden=True)
+        return self.suit, self.value
 
 
 class Deck:
@@ -65,6 +66,19 @@ class Player:
         self.deck = deck
         self.score = 0
 
+    def check_score(self):
+        a_counter = 0
+        self.score = 0
+        for card in self.cards:
+            if card.price() == 11:
+                a_counter += 1
+            self.score += card.price()
+
+        while a_counter != 0 and self.score > 21:
+            a_counter -= 1
+            self.score -= 10
+        return self.score
+
     def hit(self):
         self.cards.extend(self.deck.draw(1))
         self.check_score()
@@ -80,29 +94,29 @@ class Player:
             return 1
         return 0
 
-    def check_score(self):
-        a_counter = 0
-        self.score = 0
-        for card in self.cards:
-            if card.price() == 11:
-                a_counter += 1
-            self.score += card.price()
-
-        while a_counter != 0 and self.score > 21:
-            a_counter -= 1
-            self.score -= 10
-        return self.score
 
     async def show(self, ctx):
-        if self.isDealer:
-            await ctx.send("Dealer's Cards", hidden=True)
-        else:
-            await ctx.send("Player's Cards", hidden=True)
-
+        description = ""
+        card_str = ""
+        card_str = "**Dealer's hand:**\n" if self.isDealer else "**Your hand:**\n"
         for i in self.cards:
-            await i.show(ctx)
+            suit, value = await i.show(ctx)
+            description += f"\n{suit} {value}"
 
-        await ctx.send("Score: " + str(self.score), hidden=True)
+        await ctx.send(card_str + description + "\n" + "Score: " + str(self.score), hidden=True)
+        return str(self.score)
+
+    async def result(self, ctx):
+        description = ""
+        card_str = ""
+        card_str = "**Dealer's hand:**\n" if self.isDealer else "**Your hand:**\n"
+        for i in self.cards:
+            suit, value = await i.show(ctx)
+            description += f"\n{suit} {value}"
+    
+        description = "\n" + card_str + description + "\n" + "Score: " + str(self.score)
+
+        return description
 
 
 class Blackjack:
@@ -113,6 +127,9 @@ class Blackjack:
         self.dealer = Player(True, self.deck)
         self.bot = bot
 
+    async def show_result(self, ctx, description, desc2):
+        await ctx.send("**Results:**" + "\n" + description + desc2)
+
     async def play(self, ctx):
         p_status = self.player.deal()
         d_status = self.dealer.deal()
@@ -120,10 +137,16 @@ class Blackjack:
         await self.player.show(ctx)
 
         if p_status == 1:
-            await ctx.send("Player has a blackjack!", hidden=True)
-            if d_status == 1:
-                await ctx.send("Dealer has a blackjack!", hidden=True)
-            return 1
+            description = await self.player.result(ctx)
+            desc2 = await self.dealer.result(ctx)
+            await self.show_result(ctx, description, desc2)
+            await ctx.send("Player has a blackjack!")
+            return 1 
+
+        # if d_status == 1:
+        #     await self.dealer.show(ctx)
+        #     await ctx.send("Dealer has a blackjack!", hidden=True)
+        #     return 1
 
         bust = 0
         await ctx.send("Hit or Stand?", hidden=True)
@@ -132,12 +155,21 @@ class Blackjack:
         )
 
         while cmd.content.lower() != "stand":
+            await asyncio.sleep(0.1)
             if cmd.content.lower() == "hit":
                 bust = self.player.hit()
                 await self.player.show(ctx)
             if bust == 1:
-                await ctx.send("Player busted.", hidden=True)
+                description = await self.player.result(ctx)
+                desc2 = await self.dealer.result(ctx)
+                await self.show_result(ctx, description, desc2)
+                await ctx.send("Player busted.")
                 return 1
+            elif d_status == 1:
+                description = await self.player.result(ctx)
+                desc2 = await self.dealer.result(ctx)
+                await self.show_result(ctx, description, desc2)
+                await ctx.send("Player has a blackjack!")
             else:
                 await ctx.send("Hit or Stand?", hidden=True)
                 cmd = await self.bot.wait_for(
@@ -147,22 +179,38 @@ class Blackjack:
         await self.dealer.show(ctx)
 
         if d_status == 1:
-            await ctx.send("Dealer got blackjack!", hidden=True)
+            description = await self.player.result(ctx)
+            desc2 = await self.dealer.result(ctx)
+            await self.show_result(ctx, description, desc2)
+            await ctx.send("Dealer got blackjack!")
             return 1
 
-        while self.dealer.check_score() > 17:
+        while self.dealer.check_score() < 17:
+            await asyncio.sleep(0.1)
             if self.dealer.hit() == 1:
                 self.dealer.show(ctx)
-                await ctx.send("Dealer busted, Player wins!", hidden=True)
+                description = await self.player.result(ctx)
+                desc2 = await self.dealer.result(ctx)
+                await self.show_result(ctx, description, desc2)
+                await ctx.send("Dealer busted, Player wins!")
                 return 1
             await self.dealer.show(ctx)
 
         if self.dealer.check_score() == self.player.check_score():
-            await ctx.send("Tie!", hidden=True)
+            description = await self.player.result(ctx)
+            desc2 = await self.dealer.result(ctx)
+            await self.show_result(ctx, description, desc2)
+            await ctx.send("Tie!")
         elif self.dealer.check_score() > self.player.check_score():
-            await ctx.send("Dealer wins.", hidden=True)
+            description = await self.player.result(ctx)
+            desc2 = await self.dealer.result(ctx)
+            await self.show_result(ctx, description, desc2)
+            await ctx.send("Dealer wins.")
         elif self.dealer.check_score() < self.player.check_score():
-            await ctx.send("Player wins.", hidden=True)
+            description = await self.player.result(ctx)
+            desc2 = await self.dealer.result(ctx)
+            await self.show_result(ctx, description, desc2)
+            await ctx.send("Player wins.")
 
 
 # b.play()

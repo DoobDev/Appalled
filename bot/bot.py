@@ -12,7 +12,7 @@ from discord_slash import SlashCommand
 from dotenv import load_dotenv
 
 load_dotenv()
-COGS = [path.split(os.sep)[-1][:-3] for path in glob("./cogs/*.py")]
+#COGS = [path.split(os.sep)[-1][:-3] for path in glob("./cogs/*.py")]
 
 with open("./config.json", "r") as config_file:
     config = json.load(config_file)
