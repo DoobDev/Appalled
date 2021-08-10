@@ -34,7 +34,7 @@ class Card:
 
     async def show(self, ctx):
         print(self.suit + self.value)
-        #await ctx.send(f"{self.suit} + {self.value}", hidden=True)
+        # await ctx.send(f"{self.suit} + {self.value}", hidden=True)
         return self.suit, self.value
 
 
@@ -94,7 +94,6 @@ class Player:
             return 1
         return 0
 
-
     async def show(self, ctx):
         description = ""
         card_str = ""
@@ -103,7 +102,9 @@ class Player:
             suit, value = await i.show(ctx)
             description += f"\n{suit} {value}"
 
-        await ctx.send(card_str + description + "\n" + "Score: " + str(self.score), hidden=True)
+        await ctx.send(
+            card_str + description + "\n" + "Score: " + str(self.score), hidden=True
+        )
         return str(self.score)
 
     async def result(self, ctx):
@@ -113,7 +114,7 @@ class Player:
         for i in self.cards:
             suit, value = await i.show(ctx)
             description += f"\n{suit} {value}"
-    
+
         description = "\n" + card_str + description + "\n" + "Score: " + str(self.score)
 
         return description
@@ -141,7 +142,7 @@ class Blackjack:
             desc2 = await self.dealer.result(ctx)
             await self.show_result(ctx, description, desc2)
             await ctx.send("Player has a blackjack!")
-            return 1 
+            return 1
 
         # if d_status == 1:
         #     await self.dealer.show(ctx)
