@@ -54,16 +54,14 @@ class Play(Cog):
 
         bet = 0
         while True:
-            btn_ctx: ComponentContext = await wait_for_component(self.bot, components=buttons)
+            btn_ctx: ComponentContext = await wait_for_component(
+                self.bot, components=buttons
+            )
             btn_id = btn_ctx.component.custom_id
 
-            bet_increase = int(str(btn_id).split('_')[-1])
+            bet_increase = int(str(btn_id).split("_")[-1])
 
-            
-
-
-
-        #await b(self.bot).play(ctx)
+        # await b(self.bot).play(ctx)
 
 
 def setup(bot):
