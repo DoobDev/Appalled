@@ -153,7 +153,7 @@ class Blackjack:
             await ctx.send("Player has a blackjack!")
 
             await self.on_win(ctx)
-            
+
             return 1
 
         # if d_status == 1:
