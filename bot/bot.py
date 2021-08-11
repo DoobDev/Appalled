@@ -61,9 +61,9 @@ class Bot(Bot):
 
     def load_cogs(self):
         self.load_extension("create_user")
-        print("Loaded `create_user`")
+        log.info("Loaded `create_user`")
         self.load_extension("play")
-        print("Loaded `play`")
+        log.info("Loaded `play`")
 
         # for cog in COGS:
         #     self.load_extension(f'{cog}')
@@ -72,7 +72,7 @@ class Bot(Bot):
         _ = SlashCommand(self, sync_commands=True, sync_on_cog_reload=True)
         self.load_cogs()
 
-        print("Blackjack bot started!")
+        log.info("Blackjack bot started!")
         self.run(os.environ.get("TOKEN"))
 
 
