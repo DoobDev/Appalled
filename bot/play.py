@@ -27,7 +27,43 @@ class Play(Cog):
         name="play", description="Play some blackjack!", guild_ids=[702352937980133386]
     )
     async def play_blackjack(self, ctx: SlashContext):
-        await b(self.bot).play(ctx)
+        add = [1, 10, 15, 100, 150, 200]
+        subtract = [-1, -10, -15, -100, -150, -200]
+
+        add_buttons = [
+            create_button(
+                style=ButtonStyle.success,
+                label=f"{button}",
+                custom_id=f"addbet_{button}",
+            )
+            for button in add
+        ]
+
+        subtract_buttons = [
+            create_button(
+                style=ButtonStyle.danger,
+                label=f"{button}",
+                custom_id=f"subtractbet_{button}",
+            )
+            for button in subtract
+        ]
+
+        buttons = [create_actionrow(*add_buttons), create_actionrow(*subtract_buttons)]
+
+        await ctx.send("Bet!", components=buttons, hidden=True)
+
+        bet = 0
+        while True:
+            btn_ctx: ComponentContext = await wait_for_component(self.bot, components=buttons)
+            btn_id = btn_ctx.component.custom_id
+
+            bet_increase = int(str(btn_id).split('_')[-1])
+
+            
+
+
+
+        #await b(self.bot).play(ctx)
 
 
 def setup(bot):
