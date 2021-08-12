@@ -3,6 +3,7 @@ from discord_slash import SlashContext
 from db import collection as db
 import pymongo
 import logging
+
 log = logging.getLogger()
 
 
@@ -25,8 +26,11 @@ class Events(commands.Cog):
                 }
             )
 
-            await ctx.send("✅ Your user profile has been created! So try the command again!", hidden=True)
-        
+            await ctx.send(
+                "✅ Your user profile has been created! So try the command again!",
+                hidden=True,
+            )
+
         else:
             pass
 
