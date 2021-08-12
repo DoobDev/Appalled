@@ -12,9 +12,9 @@ from discord_slash.utils.manage_components import (
 from discord_slash.model import ButtonStyle
 
 
-# TODO: Add buttons for `Hit/Stand`
-# TODO: Implement gaining XP based off if you win.
-# TODO: Make embeds.
+# TODO Add buttons for `Hit/Stand`
+# TODO Implement gaining XP based off if you win.
+# TODO Make embeds.
 
 
 class Card:

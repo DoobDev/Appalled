@@ -16,7 +16,7 @@ import json
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-# TODO: Implement coin betting
+# TODO Implement coin betting (#4)
 
 
 class Play(Cog):
