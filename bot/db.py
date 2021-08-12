@@ -7,5 +7,5 @@ from dotenv import load_dotenv
 load_dotenv()
 
 cluster = MongoClient(os.environ.get("db_string"))
-db = cluster["blackjack"]
+db = cluster["test_blackjack"]
 collection = db["db"]

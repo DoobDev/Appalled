@@ -105,6 +105,14 @@ class Player:
         )
         return str(self.score)
 
+    async def show1_dealer(self, ctx):
+        card_str = "**Dealer's hand:**\n"
+        card = self.cards[0] 
+
+        suit, value = await card.show(ctx)
+        card_str += f"\n{suit} {value}"
+        await ctx.send(card_str + "\n", hidden=True)
+
     async def result(self, ctx):
         description = ""
         card_str = ""
@@ -143,6 +151,7 @@ class Blackjack:
         d_status = self.dealer.deal()
 
         await self.player.show(ctx)
+        await self.dealer.show1_dealer(ctx)
 
         if p_status == 1:
             description = await self.player.result(ctx)
@@ -185,7 +194,7 @@ class Blackjack:
 
                 return 1
 
-            elif d_status == 1:
+            elif p_status == 1:
                 description = await self.player.result(ctx)
                 desc2 = await self.dealer.result(ctx)
 
@@ -216,7 +225,8 @@ class Blackjack:
             return 1
 
         while self.dealer.check_score() < 17:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.3)
+            await ctx.send("Dealer has hit...", hidden=True)
             if self.dealer.hit() == 1:
                 await self.dealer.show(ctx)
 
@@ -228,6 +238,18 @@ class Blackjack:
                 await ctx.send("Dealer busted, Player wins!")
 
                 await self.on_win(ctx)
+
+                return 1
+
+            elif d_status == 1:
+                description = await self.player.result(ctx)
+                desc2 = await self.dealer.result(ctx)
+
+                await self.show_result(ctx, description, desc2)
+
+                await ctx.send("Dealer got blackjack!")
+
+                await self.on_lose(ctx)
 
                 return 1
 
