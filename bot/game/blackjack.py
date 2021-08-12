@@ -161,7 +161,7 @@ class Blackjack:
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         await ctx.send("✨+100 EXP", hidden=True)
 
-    async def play(self, ctx):
+    async def play(self, ctx, bet):
         p_status = self.player.deal()
         d_status = self.dealer.deal()
 

@@ -2,6 +2,8 @@ from discord.ext import commands
 from discord_slash import SlashContext
 from db import collection as db
 import pymongo
+import logging
+log = logging.getLogger()
 
 
 class Events(commands.Cog):
@@ -11,6 +13,9 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_slash_command(self, ctx: SlashContext):
         try:
+            db.find({"_id": ctx.author.id})[0]["EXP"]
+        except IndexError:
+            await ctx.send("⚠ Your user profile could not be found", hidden=True)
             db.insert_one(
                 {
                     "_id": ctx.author.id,
@@ -19,7 +24,10 @@ class Events(commands.Cog):
                     "EXP": 0,
                 }
             )
-        except pymongo.errors.DuplicateKeyError:
+
+            await ctx.send("✅ Your user profile has been created! So try the command again!", hidden=True)
+        
+        else:
             pass
 
 
