@@ -107,7 +107,7 @@ class Player:
 
     async def show1_dealer(self, ctx):
         card_str = "**Dealer's hand:**\n"
-        card = self.cards[0] 
+        card = self.cards[0]
 
         suit, value = await card.show(ctx)
         card_str += f"\n{suit} {value}"
