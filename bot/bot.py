@@ -64,6 +64,8 @@ class Bot(Bot):
         log.info("Loaded `create_user`")
         self.load_extension("play")
         log.info("Loaded `play`")
+        self.load_extension("profile")
+        log.info("Loaded `profile`")
 
         # for cog in COGS:
         #     self.load_extension(f'{cog}')

@@ -11,9 +11,9 @@ from discord_slash.utils.manage_components import (
 )
 from discord_slash.model import ButtonStyle
 
+from db import collection as db
 
 # TODO Add buttons for `Hit/Stand`
-# TODO Implement gaining XP based off if you win.
 # TODO Make embeds.
 
 
@@ -138,13 +138,28 @@ class Blackjack:
         await ctx.send("**Results:**" + "\n" + description + desc2)
 
     async def on_win(self, ctx):
-        pass
+        exp = db.find({"_id" : ctx.author.id})[0]['EXP']
+
+        exp_gain = exp + 150
+
+        db.update_one({"_id" : ctx.author.id}, {"$set" : {"EXP" : exp_gain}})
+        await ctx.send("✨+150 EXP", hidden=True)
 
     async def on_lose(self, ctx):
-        pass
+        exp = db.find({"_id" : ctx.author.id})[0]['EXP']
+
+        exp_gain = exp + 50
+
+        db.update_one({"_id" : ctx.author.id}, {"$set" : {"EXP" : exp_gain}})
+        await ctx.send("✨+50 EXP", hidden=True)
 
     async def on_tie(self, ctx):
-        pass
+        exp = db.find({"_id" : ctx.author.id})[0]['EXP']
+
+        exp_gain = exp + 100
+
+        db.update_one({"_id" : ctx.author.id}, {"$set" : {"EXP" : exp_gain}})
+        await ctx.send("✨+100 EXP", hidden=True)
 
     async def play(self, ctx):
         p_status = self.player.deal()

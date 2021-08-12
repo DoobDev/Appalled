@@ -9,6 +9,7 @@ from discord_slash.utils.manage_components import (
     create_select_option,
     wait_for_component,
 )
+
 from game.blackjack import Blackjack as b
 
 import json
@@ -16,7 +17,7 @@ import json
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-# TODO Implement coin betting (#4)
+# TODO Implement coin betting
 
 
 class Play(Cog):
