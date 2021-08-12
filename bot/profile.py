@@ -18,24 +18,28 @@ with open("config.json") as config_file:
 
 from db import collection as db
 
+
 class Profile(Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @cog_ext.cog_slash(
-        name="profile", description="See your Blackjack profile.", guild_ids=[702352937980133386]
+        name="profile",
+        description="See your Blackjack profile.",
+        guild_ids=[702352937980133386],
     )
     async def see_profile(self, ctx: SlashContext):
-        profile = db.find({'_id' : ctx.author.id})[0]
+        profile = db.find({"_id": ctx.author.id})[0]
         print(profile)
-         
+
         description = f"""**{ctx.author.mention}'s profile:**
         \n**Coins:** {profile['Coins']}
         **EXP:** {profile['EXP']}"""
 
-        embed=Embed(description=description, color=ctx.author.color)
+        embed = Embed(description=description, color=ctx.author.color)
 
         await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Profile(bot))

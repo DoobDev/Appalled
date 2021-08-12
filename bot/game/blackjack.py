@@ -138,27 +138,27 @@ class Blackjack:
         await ctx.send("**Results:**" + "\n" + description + desc2)
 
     async def on_win(self, ctx):
-        exp = db.find({"_id" : ctx.author.id})[0]['EXP']
+        exp = db.find({"_id": ctx.author.id})[0]["EXP"]
 
         exp_gain = exp + 150
 
-        db.update_one({"_id" : ctx.author.id}, {"$set" : {"EXP" : exp_gain}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         await ctx.send("✨+150 EXP", hidden=True)
 
     async def on_lose(self, ctx):
-        exp = db.find({"_id" : ctx.author.id})[0]['EXP']
+        exp = db.find({"_id": ctx.author.id})[0]["EXP"]
 
         exp_gain = exp + 50
 
-        db.update_one({"_id" : ctx.author.id}, {"$set" : {"EXP" : exp_gain}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         await ctx.send("✨+50 EXP", hidden=True)
 
     async def on_tie(self, ctx):
-        exp = db.find({"_id" : ctx.author.id})[0]['EXP']
+        exp = db.find({"_id": ctx.author.id})[0]["EXP"]
 
         exp_gain = exp + 100
 
-        db.update_one({"_id" : ctx.author.id}, {"$set" : {"EXP" : exp_gain}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         await ctx.send("✨+100 EXP", hidden=True)
 
     async def play(self, ctx):
