@@ -4,7 +4,7 @@
 # C:\Users\notmm\blackjack\bot\create_user.py: 2
 # C:\Users\notmm\blackjack\bot\game\blackjack.py: 7,12
 # C:\Users\notmm\blackjack\bot\play.py: 5
-discord_py_slash_command == 2.4.1
+discord_py_slash_command == 2.4.2
 
 # C:\Users\notmm\blackjack\bot\bot.py: 1,8,9
 # C:\Users\notmm\blackjack\bot\create_user.py: 1
