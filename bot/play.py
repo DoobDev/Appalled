@@ -45,11 +45,15 @@ class Play(Cog):
     async def play_blackjack(self, ctx: SlashContext, bet: int):
         current_coins = db.find({"_id": ctx.author.id})[0]["EXP"]
         log.debug(current_coins)
-        current_coins -= bet
-        log.debug(current_coins)
-        db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": current_coins}})
+        if bet > current_coins:
+            await ctx.send("⚠ You can't bet more then you have.", hidden=True)
+        else:
+            current_coins -= bet
+            log.debug(current_coins)
+            
+            db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": current_coins}})
 
-        await b(self.bot).play(ctx, bet)
+            await b(self.bot, bet).play(ctx, bet)
 
 
 def setup(bot):

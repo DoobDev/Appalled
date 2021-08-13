@@ -127,23 +127,29 @@ class Player:
 
 
 class Blackjack:
-    def __init__(self, bot):
+    def __init__(self, bot, bet):
         self.deck = Deck()
         self.deck.generate()
         self.player = Player(False, self.deck)
         self.dealer = Player(True, self.deck)
         self.bot = bot
+        self.bet = bet
 
     async def show_result(self, ctx, description, desc2):
         await ctx.send("**Results:**" + "\n" + description + desc2)
 
     async def on_win(self, ctx):
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
         exp_gain = exp + 150
+        coins = self.bet * 1.5
+        coins_gained = self.bet * 1.5
+        coins += current_coins
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
-        await ctx.send("✨+150 EXP", hidden=True)
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
+        await ctx.send(f"✨+150 EXP\n👛+{coins_gained} Coins", hidden=True)
 
     async def on_lose(self, ctx):
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
@@ -155,11 +161,14 @@ class Blackjack:
 
     async def on_tie(self, ctx):
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
         exp_gain = exp + 100
+        coins = current_coins + self.bet
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
-        await ctx.send("✨+100 EXP", hidden=True)
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
+        await ctx.send(f"✨+100 EXP\n👛+{coins} Coins", hidden=True)
 
     async def play(self, ctx, bet):
         p_status = self.player.deal()
