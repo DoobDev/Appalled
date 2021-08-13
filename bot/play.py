@@ -42,7 +42,7 @@ class Play(Cog):
         ],
     )
     async def play_blackjack(self, ctx: SlashContext, bet: int):
-        current_coins = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_coins = int(db.find({"_id": ctx.author.id})[0]["Coins"])
         log.debug(current_coins)
         if bet > current_coins:
             await ctx.send("⚠ You can't bet more then you have.", hidden=True)

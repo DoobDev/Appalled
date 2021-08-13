@@ -12,9 +12,5 @@ load_dotenv()
 
 cluster = MongoClient(os.environ.get("db_string"))
 
-if config["dev_mode"]:
-    db = cluster["test_blackjack"]
-elif not config["dev_mode"]:
-    db = cluster["blackjack"]
-
+db = cluster["test_blackjack"] if config["dev_mode"] else cluster["blackjack"]
 collection = db["db"]
