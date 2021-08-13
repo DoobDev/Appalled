@@ -28,7 +28,6 @@ class Profile(Cog):
     @cog_ext.cog_slash(
         name="profile",
         description="See your Blackjack profile.",
-        guild_ids=[702352937980133386],
     )
     async def see_profile(self, ctx: SlashContext):
         profile = db.find({"_id": ctx.author.id})[0]

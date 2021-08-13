@@ -32,7 +32,6 @@ class Play(Cog):
     @cog_ext.cog_slash(
         name="play",
         description="Play some blackjack!",
-        guild_ids=[702352937980133386],
         options=[
             create_option(
                 name="bet",
