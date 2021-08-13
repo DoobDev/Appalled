@@ -50,7 +50,7 @@ class Play(Cog):
         else:
             current_coins -= bet
             log.debug(current_coins)
-            
+
             db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": current_coins}})
 
             await b(self.bot, bet).play(ctx, bet)
