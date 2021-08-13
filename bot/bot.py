@@ -56,7 +56,7 @@ class Bot(Bot):
             intents=intents,
             case_insensitive=True,
             allowed_mentions=discord.AllowedMentions(everyone=False),
-            help_command=None
+            help_command=None,
         )
 
         self.launch()
