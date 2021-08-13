@@ -18,6 +18,8 @@ with open("config.json") as config_file:
 
 from db import collection as db
 
+import logging
+log = logging.getLogger()
 
 class Profile(Cog):
     def __init__(self, bot):
@@ -30,11 +32,10 @@ class Profile(Cog):
     )
     async def see_profile(self, ctx: SlashContext):
         profile = db.find({"_id": ctx.author.id})[0]
-        print(profile)
+        log.debug(profile)
 
         description = f"""**{ctx.author.mention}'s profile:**
-        \n**Coins:** {profile['Coins']}
-        **EXP:** {profile['EXP']}"""
+        \n**Coins:** {profile['Coins']} | **EXP:** {profile['EXP']}"""
 
         embed = Embed(description=description, color=ctx.author.color)
 
