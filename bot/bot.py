@@ -55,6 +55,8 @@ class Bot(Bot):
             owner_ids=config["OwnerIDs"],
             intents=intents,
             case_insensitive=True,
+            allowed_mentions=discord.AllowedMentions(everyone=False),
+            help_command=None
         )
 
         self.launch()
