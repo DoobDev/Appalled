@@ -19,7 +19,9 @@ with open("config.json") as config_file:
 from db import collection as db
 
 import logging
+
 log = logging.getLogger()
+
 
 class Profile(Cog):
     def __init__(self, bot):
