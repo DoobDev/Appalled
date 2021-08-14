@@ -61,7 +61,6 @@ class Bot(Bot):
         self.scheduler.add_job(self.reset_daily, CronTrigger(hour=0))
         self.scheduler.add_job(self.reset_weekly, CronTrigger(day=1))
 
-
         super().__init__(
             command_prefix="/",
             owner_ids=config["OwnerIDs"],
@@ -72,23 +71,13 @@ class Bot(Bot):
         )
 
         self.launch()
-   
+
     async def reset_daily(self):
-        db.update_many(
-        {"_id": { "$exists": True } },
-        {
-            "$set": { "DailyReward" : False}
-        }
-)
+        db.update_many({"_id": {"$exists": True}}, {"$set": {"DailyReward": False}})
         log.debug("Daily Rewards reset")
 
     async def reset_weekly(self):
-        db.update_many(
-        {"_id": { "$exists": True } },
-        {
-            "$set": { "WeeklyReward" : False}
-        }
-)
+        db.update_many({"_id": {"$exists": True}}, {"$set": {"WeeklyReward": False}})
         log.debug("Weekly Rewards reset")
 
     def load_cogs(self):

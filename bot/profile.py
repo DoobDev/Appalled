@@ -32,7 +32,7 @@ class Profile(Cog):
         description="See your Blackjack profile.",
     )
     async def see_profile(self, ctx: SlashContext):
-        profile = (db.find({"_id": ctx.author.id})[0])
+        profile = db.find({"_id": ctx.author.id})[0]
         log.debug(profile)
 
         description = f"""**{ctx.author.mention}'s profile:**

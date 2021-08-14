@@ -40,7 +40,9 @@ class Misc(Cog):
 
             db.update_one({"_id": ctx.author.id}, {"$set": {"DailyReward": True}})
             db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": more_coins}})
-            await ctx.send("👛 You have claimed your daily reward!\n(👛 +250 Coins)", hidden=True)
+            await ctx.send(
+                "👛 You have claimed your daily reward!\n(👛 +250 Coins)", hidden=True
+            )
 
     @cog_ext.cog_slash(name="weekly", description="Get a weekly reward")
     async def weekly_cmd(self, ctx: SlashContext):
@@ -54,11 +56,14 @@ class Misc(Cog):
 
             db.update_one({"_id": ctx.author.id}, {"$set": {"WeeklyReward": True}})
             db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": more_coins}})
-            await ctx.send("👛 You have claimed your weekly reward!\n(👛 +1000 Coins)", hidden=True)
+            await ctx.send(
+                "👛 You have claimed your weekly reward!\n(👛 +1000 Coins)", hidden=True
+            )
 
     # @cog_ext.cog_slash(name="redeem", description="Redeem a special code for some extra coins!", guild_ids=[702352937980133386], options=[create_option(name="code", description="The code you would like to redeem", option_type=3, required=True)])
     # async def redeem_cmd(self, ctx: SlashContext, code: str):
     #     pass
+
 
 def setup(bot):
     bot.add_cog(Misc(bot))
