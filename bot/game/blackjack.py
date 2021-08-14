@@ -239,7 +239,6 @@ class Blackjack:
             self.bot, components=action_row
         )
 
-
         while cmd.custom_id.lower() != "stand":
             await asyncio.sleep(0.4)
             if cmd.custom_id.lower() == "hit":

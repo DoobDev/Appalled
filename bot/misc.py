@@ -62,29 +62,44 @@ class Misc(Cog):
                 "👛 You have claimed your weekly reward!\n(👛 +1000 Coins)", hidden=True
             )
 
-    @cog_ext.cog_slash(name="setcoins", description="[OWNER ONLY] Command to set coins.", options=[create_option(
-        name="amount",
-        description="Amount of coins to set",
-        option_type=4,
-        required=True
-    ), create_option(
-        name="user",
-        description="The user to set the coins for",
-        option_type=6,
-        required=True
-    )])
+    @cog_ext.cog_slash(
+        name="setcoins",
+        description="[OWNER ONLY] Command to set coins.",
+        options=[
+            create_option(
+                name="amount",
+                description="Amount of coins to set",
+                option_type=4,
+                required=True,
+            ),
+            create_option(
+                name="user",
+                description="The user to set the coins for",
+                option_type=6,
+                required=True,
+            ),
+        ],
+    )
     async def setcoins_cmd(self, ctx: SlashContext, amount: int, user: discord.User):
         if ctx.author.id not in config["OwnerIDs"]:
-            await ctx.send("⚠ You are not the owner of this bot, you can't use this.", hidden=True)
-        
+            await ctx.send(
+                "⚠ You are not the owner of this bot, you can't use this.", hidden=True
+            )
+
         else:
             db.update_one({"_id": user.id}, {"$set": {"Coins": amount}})
             await ctx.send(f"👛 Set {user.mention}'s Coins to {amount}", hidden=True)
 
-    @cog_ext.cog_slash(name="restart", description="[OWNER ONLY] Restart the bot", guild_ids=[702352937980133386])
+    @cog_ext.cog_slash(
+        name="restart",
+        description="[OWNER ONLY] Restart the bot",
+        guild_ids=[702352937980133386],
+    )
     async def restart_cmd(self, ctx: SlashContext):
         if ctx.author.id not in config["OwnerIDs"]:
-            await ctx.send("⚠ You are not the owner of this bot, you can't use this.", hidden=True)
+            await ctx.send(
+                "⚠ You are not the owner of this bot, you can't use this.", hidden=True
+            )
         else:
             await ctx.send("🔄 Restarting...", hidden=True)
             self.bot.scheduler.shutdown()
