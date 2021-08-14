@@ -21,7 +21,8 @@ log = logging.getLogger()
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-# TODO Implement coin betting
+# TODO Add a way to redeem certain codes for coins
+# TODO Add a way to recieve coins weekly and daily.
 
 
 class Misc(Cog):
