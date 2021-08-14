@@ -41,6 +41,7 @@ class Play(Cog):
             )
         ],
     )
+    @cooldown(1, 2, BucketType.user)
     async def play_blackjack(self, ctx: SlashContext, bet: int):
         current_coins = int(db.find({"_id": ctx.author.id})[0]["Coins"])
         log.debug(current_coins)

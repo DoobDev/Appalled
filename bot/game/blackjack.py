@@ -82,6 +82,8 @@ class Player:
         self.check_score()
         if self.score > 21:
             return 1
+        elif self.score == 21:
+            return 2
 
         return 0
 
@@ -136,9 +138,11 @@ class Blackjack:
         self.bet = bet
 
     async def show_result(self, ctx, description, desc2):
+        await asyncio.sleep(0.3)
         await ctx.send("**Results:**" + "\n" + description + desc2)
 
     async def on_win(self, ctx):
+        await asyncio.sleep(0.3)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
@@ -152,6 +156,7 @@ class Blackjack:
         await ctx.send(f"✨+150 EXP\n👛+{coins_gained} Coins", hidden=True)
 
     async def on_lose(self, ctx):
+        await asyncio.sleep(0.3)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
 
         exp_gain = exp + 50
@@ -160,6 +165,7 @@ class Blackjack:
         await ctx.send("✨+50 EXP", hidden=True)
 
     async def on_tie(self, ctx):
+        await asyncio.sleep(0.3)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
@@ -168,7 +174,7 @@ class Blackjack:
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
-        await ctx.send(f"✨+100 EXP\n👛+{coins} Coins", hidden=True)
+        await ctx.send(f"✨+100 EXP\n👛Push! (Your bet [{self.bet}] has been returned to your balance.)", hidden=True)
 
     async def play(self, ctx, bet):
         p_status = self.player.deal()
@@ -201,7 +207,7 @@ class Blackjack:
         )
 
         while cmd.content.lower() != "stand":
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.2)
             if cmd.content.lower() == "hit":
                 bust = self.player.hit()
                 await self.player.show(ctx)
@@ -218,7 +224,7 @@ class Blackjack:
 
                 return 1
 
-            elif p_status == 1:
+            elif bust == 2:
                 description = await self.player.result(ctx)
                 desc2 = await self.dealer.result(ctx)
 
@@ -227,6 +233,8 @@ class Blackjack:
                 await ctx.send("Player has a blackjack!")
 
                 await self.on_win(ctx)
+
+                return 1
 
             else:
                 await ctx.send("Hit or Stand?", hidden=True)
