@@ -32,13 +32,15 @@ class Profile(Cog):
         description="See your Blackjack profile.",
     )
     async def see_profile(self, ctx: SlashContext):
-        profile = db.find({"_id": ctx.author.id})[0]
+        profile = (db.find({"_id": ctx.author.id})[0])
         log.debug(profile)
 
         description = f"""**{ctx.author.mention}'s profile:**
-        \n**Coins:** {profile['Coins']} | **EXP:** {profile['EXP']}"""
+        \n**Coins:** {int(profile['Coins'])} | **EXP:** {profile['EXP']}"""
 
         embed = Embed(description=description, color=ctx.author.color)
+
+        embed.set_thumbnail(url=ctx.author.avatar_url)
 
         await ctx.send(embed=embed)
 

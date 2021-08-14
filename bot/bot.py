@@ -11,6 +11,12 @@ from discord_slash import SlashCommand
 
 from dotenv import load_dotenv
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+
+from db import collection as db
+
+
 load_dotenv()
 # COGS = [path.split(os.sep)[-1][:-3] for path in glob("./cogs/*.py")]
 
@@ -50,6 +56,12 @@ class Bot(Bot):
         intents.members = False
         intents.presences = False
 
+        self.scheduler = AsyncIOScheduler()
+
+        self.scheduler.add_job(self.reset_daily, CronTrigger(hour=0))
+        self.scheduler.add_job(self.reset_weekly, CronTrigger(day=1))
+
+
         super().__init__(
             command_prefix="/",
             owner_ids=config["OwnerIDs"],
@@ -60,14 +72,35 @@ class Bot(Bot):
         )
 
         self.launch()
+   
+    async def reset_daily(self):
+        db.update_many(
+        {"_id": { "$exists": True } },
+        {
+            "$set": { "DailyReward" : False}
+        }
+)
+        log.debug("Daily Rewards reset")
+
+    async def reset_weekly(self):
+        db.update_many(
+        {"_id": { "$exists": True } },
+        {
+            "$set": { "WeeklyReward" : False}
+        }
+)
+        log.debug("Weekly Rewards reset")
 
     def load_cogs(self):
+        self.scheduler.start()
         self.load_extension("create_user")
         log.info("Loaded `create_user`")
         self.load_extension("play")
         log.info("Loaded `play`")
         self.load_extension("profile")
         log.info("Loaded `profile`")
+        self.load_extension("misc")
+        log.info("Loaded `misc`")
 
         # for cog in COGS:
         #     self.load_extension(f'{cog}')
