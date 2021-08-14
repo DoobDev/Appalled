@@ -161,7 +161,7 @@ class Blackjack:
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
-        await ctx.send(f"✨+150 EXP\n👛+{coins_gained} Coins", hidden=True)
+        await ctx.send(f"✨+150 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_player_blackjack(self, ctx):
         await asyncio.sleep(0.6)
@@ -175,7 +175,7 @@ class Blackjack:
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
-        await ctx.send(f"✨+250 EXP\n👛+{coins_gained} Coins", hidden=True)
+        await ctx.send(f"✨+250 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_lose(self, ctx):
         await asyncio.sleep(0.6)
