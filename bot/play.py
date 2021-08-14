@@ -39,6 +39,8 @@ class Play(Cog):
         log.debug(current_coins)
         if bet > current_coins:
             await ctx.send("⚠ You can't bet more then you have.", hidden=True)
+        elif bet <= 0:
+            await ctx.send("⚠ You can't bet less then 0.", hidden=True)
         else:
             current_coins -= bet
             log.debug(current_coins)
