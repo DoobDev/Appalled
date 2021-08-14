@@ -125,7 +125,7 @@ class Player:
         card_str = (
             "**Dealer's hand:**\n"
             if self.isDealer
-            else f"**{ctx.author.name}'s' hand:**\n"
+            else f"**{ctx.author.name}'s hand:**\n"
         )
         for i in self.cards:
             suit, value = await i.show(ctx)
@@ -239,7 +239,6 @@ class Blackjack:
             self.bot, components=action_row
         )
 
-        print("XD")
 
         while cmd.custom_id.lower() != "stand":
             await asyncio.sleep(0.4)
@@ -276,7 +275,6 @@ class Blackjack:
                 cmd: ComponentContext = await wait_for_component(
                     self.bot, components=action_row
                 )
-                print("xd")
 
         await self.dealer.show(ctx)
 

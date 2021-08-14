@@ -1,3 +1,5 @@
+import os
+import discord
 from discord.ext.commands import Cog, command, cooldown, BucketType
 
 from discord_slash import cog_ext, SlashContext, ComponentContext
@@ -34,7 +36,7 @@ class Misc(Cog):
 
         if check_daily:
             await ctx.send("⚠ You already got your daily reward", hidden=True)
-        elif not check_daily:
+        else:
             current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
             more_coins = int(current_coins) + 250
 
@@ -50,7 +52,7 @@ class Misc(Cog):
 
         if check_weekly:
             await ctx.send("⚠ You already got your weekly reward", hidden=True)
-        elif not check_weekly:
+        else:
             current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
             more_coins = int(current_coins) + 1000
 
@@ -59,6 +61,41 @@ class Misc(Cog):
             await ctx.send(
                 "👛 You have claimed your weekly reward!\n(👛 +1000 Coins)", hidden=True
             )
+
+    @cog_ext.cog_slash(name="setcoins", description="[OWNER ONLY] Command to set coins.", options=[create_option(
+        name="amount",
+        description="Amount of coins to set",
+        option_type=4,
+        required=True
+    ), create_option(
+        name="user",
+        description="The user to set the coins for",
+        option_type=6,
+        required=True
+    )])
+    async def setcoins_cmd(self, ctx: SlashContext, amount: int, user: discord.User):
+        if ctx.author.id not in config["OwnerIDs"]:
+            await ctx.send("⚠ You are not the owner of this bot, you can't use this.", hidden=True)
+        
+        else:
+            db.update_one({"_id": user.id}, {"$set": {"Coins": amount}})
+            await ctx.send(f"👛 Set {user.mention}'s Coins to {amount}", hidden=True)
+
+    @cog_ext.cog_slash(name="restart", description="[OWNER ONLY] Restart the bot", guild_ids=[702352937980133386])
+    async def restart_cmd(self, ctx: SlashContext):
+        if ctx.author.id not in config["OwnerIDs"]:
+            await ctx.send("⚠ You are not the owner of this bot, you can't use this.", hidden=True)
+        else:
+            await ctx.send("🔄 Restarting...", hidden=True)
+            self.bot.scheduler.shutdown()
+            await self.bot.logout()
+
+            log.info("Fetching latest version from doobdev/appalled@main")
+            os.system("git pull origin main")
+            log.info("Installing requirements.txt")
+            os.system("py -m pip install -r requirements.txt  --force-reinstall")
+            log.info("Starting bot.")
+            os.system("py bot/bot.py")
 
     # @cog_ext.cog_slash(name="redeem", description="Redeem a special code for some extra coins!", guild_ids=[702352937980133386], options=[create_option(name="code", description="The code you would like to redeem", option_type=3, required=True)])
     # async def redeem_cmd(self, ctx: SlashContext, code: str):
