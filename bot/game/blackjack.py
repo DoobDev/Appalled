@@ -174,7 +174,10 @@ class Blackjack:
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
-        await ctx.send(f"✨+100 EXP\n👛Push! (Your bet [{self.bet}] has been returned to your balance.)", hidden=True)
+        await ctx.send(
+            f"✨+100 EXP\n👛Push! (Your bet [{self.bet}] has been returned to your balance.)",
+            hidden=True,
+        )
 
     async def play(self, ctx, bet):
         p_status = self.player.deal()
