@@ -162,7 +162,7 @@ class Blackjack:
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
         await ctx.send(f"✨+150 EXP\n👛+{coins_gained} Coins", hidden=True)
-    
+
     async def on_player_blackjack(self, ctx):
         await asyncio.sleep(0.3)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
