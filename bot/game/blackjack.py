@@ -97,7 +97,11 @@ class Player:
     async def show(self, ctx):
         description = ""
         card_str = ""
-        card_str = "**Dealer's hand:**\n" if self.isDealer else f"**{ctx.author.name}'s hand:**\n"
+        card_str = (
+            "**Dealer's hand:**\n"
+            if self.isDealer
+            else f"**{ctx.author.name}'s hand:**\n"
+        )
         for i in self.cards:
             suit, value = await i.show(ctx)
             description += f"\n{suit} {value}"
@@ -118,7 +122,11 @@ class Player:
     async def result(self, ctx):
         description = ""
         card_str = ""
-        card_str = "**Dealer's hand:**\n" if self.isDealer else f"**{ctx.author.name}'s' hand:**\n"
+        card_str = (
+            "**Dealer's hand:**\n"
+            if self.isDealer
+            else f"**{ctx.author.name}'s' hand:**\n"
+        )
         for i in self.cards:
             suit, value = await i.show(ctx)
             description += f"\n{suit} {value}"
@@ -205,7 +213,10 @@ class Blackjack:
 
         bust = 0
 
-        buttons = [create_button(style=ButtonStyle.green, label="Hit", custom_id="hit"), create_button(style=ButtonStyle.red, label="Stand", custom_id="stand")]
+        buttons = [
+            create_button(style=ButtonStyle.green, label="Hit", custom_id="hit"),
+            create_button(style=ButtonStyle.red, label="Stand", custom_id="stand"),
+        ]
 
         action_row = create_actionrow(*buttons)
 
