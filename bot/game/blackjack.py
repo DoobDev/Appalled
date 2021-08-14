@@ -155,13 +155,27 @@ class Blackjack:
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
         exp_gain = exp + 150
+        coins = self.bet * 1.25
+        coins_gained = self.bet * 1.25
+        coins += current_coins
+
+        db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
+        await ctx.send(f"✨+150 EXP\n👛+{coins_gained} Coins", hidden=True)
+    
+    async def on_player_blackjack(self, ctx):
+        await asyncio.sleep(0.3)
+        exp = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
+
+        exp_gain = exp + 250
         coins = self.bet * 1.5
         coins_gained = self.bet * 1.5
         coins += current_coins
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
-        await ctx.send(f"✨+150 EXP\n👛+{coins_gained} Coins", hidden=True)
+        await ctx.send(f"✨+250 EXP\n👛+{coins_gained} Coins", hidden=True)
 
     async def on_lose(self, ctx):
         await asyncio.sleep(0.3)
@@ -202,7 +216,7 @@ class Blackjack:
 
             await ctx.send(f"{ctx.author.name} has a blackjack!")
 
-            await self.on_win(ctx)
+            await self.on_player_blackjack(ctx)
 
             return 1
 
@@ -253,7 +267,7 @@ class Blackjack:
 
                 await ctx.send(f"{ctx.author.name} has a blackjack!")
 
-                await self.on_win(ctx)
+                await self.on_player_blackjack(ctx)
 
                 return 1
 
