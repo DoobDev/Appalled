@@ -1,14 +1,6 @@
-from discord.ext.commands import Cog, command, cooldown, BucketType
+from discord.ext.commands import Cog, cooldown, BucketType
 
-from discord_slash import cog_ext, SlashContext, ComponentContext
-from discord_slash.model import ButtonStyle
-from discord_slash.utils.manage_components import (
-    create_button,
-    create_select,
-    create_actionrow,
-    create_select_option,
-    wait_for_component,
-)
+from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 import logging
 

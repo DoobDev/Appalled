@@ -97,7 +97,7 @@ class Player:
     async def show(self, ctx):
         description = ""
         card_str = ""
-        card_str = "**Dealer's hand:**\n" if self.isDealer else "**Your hand:**\n"
+        card_str = "**Dealer's hand:**\n" if self.isDealer else f"**{ctx.author.name}'s hand:**\n"
         for i in self.cards:
             suit, value = await i.show(ctx)
             description += f"\n{suit} {value}"
@@ -118,7 +118,7 @@ class Player:
     async def result(self, ctx):
         description = ""
         card_str = ""
-        card_str = "**Dealer's hand:**\n" if self.isDealer else "**Your hand:**\n"
+        card_str = "**Dealer's hand:**\n" if self.isDealer else f"**{ctx.author.name}'s' hand:**\n"
         for i in self.cards:
             suit, value = await i.show(ctx)
             description += f"\n{suit} {value}"
@@ -192,7 +192,7 @@ class Blackjack:
 
             await self.show_result(ctx, description, desc2)
 
-            await ctx.send("Player has a blackjack!")
+            await ctx.send(f"{ctx.author.name} has a blackjack!")
 
             await self.on_win(ctx)
 
@@ -204,14 +204,21 @@ class Blackjack:
         #     return 1
 
         bust = 0
-        await ctx.send("Hit or Stand?", hidden=True)
-        cmd = await self.bot.wait_for(
-            "message", check=lambda message: message.author == ctx.author
+
+        buttons = [create_button(style=ButtonStyle.green, label="Hit", custom_id="hit"), create_button(style=ButtonStyle.red, label="Stand", custom_id="stand")]
+
+        action_row = create_actionrow(*buttons)
+
+        await ctx.send("Hit or Stand?", components=[action_row], hidden=True)
+        cmd: ComponentContext = await wait_for_component(
+            self.bot, components=action_row
         )
 
-        while cmd.content.lower() != "stand":
+        print("XD")
+
+        while cmd.custom_id.lower() != "stand":
             await asyncio.sleep(0.2)
-            if cmd.content.lower() == "hit":
+            if cmd.custom_id.lower() == "hit":
                 bust = self.player.hit()
                 await self.player.show(ctx)
 
@@ -221,7 +228,7 @@ class Blackjack:
 
                 await self.show_result(ctx, description, desc2)
 
-                await ctx.send("Player busted.")
+                await ctx.send(f"{ctx.author.name} busted.")
 
                 await self.on_lose(ctx)
 
@@ -233,17 +240,18 @@ class Blackjack:
 
                 await self.show_result(ctx, description, desc2)
 
-                await ctx.send("Player has a blackjack!")
+                await ctx.send(f"{ctx.author.name} has a blackjack!")
 
                 await self.on_win(ctx)
 
                 return 1
 
             else:
-                await ctx.send("Hit or Stand?", hidden=True)
-                cmd = await self.bot.wait_for(
-                    "message", check=lambda message: message.author == ctx.author
+                await ctx.send("Hit or Stand?", components=[action_row], hidden=True)
+                cmd: ComponentContext = await wait_for_component(
+                    self.bot, components=action_row
                 )
+                print("xd")
 
         await self.dealer.show(ctx)
 
@@ -270,7 +278,7 @@ class Blackjack:
 
                 await self.show_result(ctx, description, desc2)
 
-                await ctx.send("Dealer busted, Player wins!")
+                await ctx.send(f"Dealer busted, {ctx.author.name} wins!")
 
                 await self.on_win(ctx)
 
@@ -316,7 +324,7 @@ class Blackjack:
 
             await self.show_result(ctx, description, desc2)
 
-            await ctx.send("Player wins.")
+            await ctx.send(f"{ctx.author.name} wins.")
 
             await self.on_win(ctx)
 
