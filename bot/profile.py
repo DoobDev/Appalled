@@ -36,7 +36,7 @@ class Profile(Cog):
         log.debug(profile)
 
         description = f"""**{ctx.author.mention}'s profile:**
-        \n**Coins:** {int(profile['Coins'])} | **EXP:** {profile['EXP']}"""
+        \n**👛 Coins:** {int(profile['Coins'])} | **✨ EXP:** {profile['EXP']}"""
 
         embed = Embed(description=description, color=ctx.author.color)
 
