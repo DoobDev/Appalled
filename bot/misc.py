@@ -108,9 +108,9 @@ class Misc(Cog):
             log.info("Fetching latest version from doobdev/appalled@main")
             os.system("git pull origin main")
             log.info("Installing requirements.txt")
-            os.system("py -m pip install -r requirements.txt  --force-reinstall")
+            os.system("python3.9 -m pip install -r requirements.txt  --force-reinstall")
             log.info("Starting bot.")
-            os.system("py bot/bot.py")
+            os.system("python3.9 bot/bot.py")
 
     # @cog_ext.cog_slash(name="redeem", description="Redeem a special code for some extra coins!", guild_ids=[702352937980133386], options=[create_option(name="code", description="The code you would like to redeem", option_type=3, required=True)])
     # async def redeem_cmd(self, ctx: SlashContext, code: str):
