@@ -1,3 +1,4 @@
+import datetime
 import os
 import discord
 from discord.ext.commands import Cog, command, cooldown, BucketType
@@ -35,7 +36,9 @@ class Misc(Cog):
         check_daily = db.find({"_id": ctx.author.id})[0]["DailyReward"]
 
         if check_daily:
-            await ctx.send("⚠ You already got your daily reward", hidden=True)
+            daily_job = self.bot.daily_job
+
+            await ctx.send(f"⚠ You already got your daily reward\n⌚ Daily rewards reset at: {daily_job.next_run_time}", hidden=True)
         else:
             current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
             more_coins = int(current_coins) + 250
@@ -51,7 +54,12 @@ class Misc(Cog):
         check_weekly = db.find({"_id": ctx.author.id})[0]["WeeklyReward"]
 
         if check_weekly:
-            await ctx.send("⚠ You already got your weekly reward", hidden=True)
+            weekly_job = self.bot.weekly_job
+            await ctx.send(
+                f"⚠ You already got your weekly reward\n⌚ Weekly rewards reset at: {weekly_job.next_run_time}",
+                hidden=True,
+            )
+            
         else:
             current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
             more_coins = int(current_coins) + 1000
