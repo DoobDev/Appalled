@@ -98,26 +98,6 @@ class Misc(Cog):
             db.update_one({"_id": user.id}, {"$set": {"Coins": amount}})
             await ctx.send(f"👛 Set {user.mention}'s Coins to {amount}", hidden=True)
 
-    @cog_ext.cog_slash(
-        name="restart",
-        description="[OWNER ONLY] Restart the bot",
-        guild_ids=[702352937980133386],
-    )
-    async def restart_cmd(self, ctx: SlashContext):
-        if ctx.author.id not in config["OwnerIDs"]:
-            await ctx.send(
-                "⚠ You are not the owner of this bot, you can't use this.", hidden=True
-            )
-        else:
-            await ctx.send("🔄 Restarting...", hidden=True)
-            self.bot.scheduler.shutdown()
-            await self.bot.logout()
-
-            log.info("Fetching latest version from doobdev/appalled@main")
-            os.system("git pull origin main")
-            log.info("Starting up Docker")
-            os.system("docker-compose up --build")
-
     # @cog_ext.cog_slash(name="redeem", description="Redeem a special code for some extra coins!", guild_ids=[702352937980133386], options=[create_option(name="code", description="The code you would like to redeem", option_type=3, required=True)])
     # async def redeem_cmd(self, ctx: SlashContext, code: str):
     #     pass
