@@ -83,21 +83,21 @@ class Bot(Bot):
 
     def load_cogs(self):
         self.scheduler.start()
-        
+
         for cog in COGS:
             if cog == "db":
                 continue
-            
+
             elif cog == "topgg" and not config["dev_mode"]:
                 self.load_extension("cogs.topgg")
                 log.info(f"Loaded {cog}")
-                
+
             else:
                 self.load_extension(f"cogs.{cog}")
             log.info(f"Loaded {cog}")
-        
+
         log.info("All cogs loaded!")
-        
+
         # if not config["dev_mode"]:
         #     self.load_extension("cogs.topgg")
         #     log.info("Loaded `topgg`")
