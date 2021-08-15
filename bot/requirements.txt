@@ -9,7 +9,7 @@ APScheduler == 3.7.0
 # C:\Users\notmm\blackjack\bot\misc.py: 7,14
 # C:\Users\notmm\blackjack\bot\play.py: 3,4
 # C:\Users\notmm\blackjack\bot\profile.py: 5
-discord_py_slash_command == 2.4.1
+discord_py_slash_command == 3.0.1
 
 # C:\Users\notmm\blackjack\bot\bot.py: 1,8,9
 # C:\Users\notmm\blackjack\bot\create_user.py: 1
