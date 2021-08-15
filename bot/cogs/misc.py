@@ -38,7 +38,10 @@ class Misc(Cog):
         if check_daily:
             daily_job = self.bot.daily_job
 
-            await ctx.send(f"⚠ You already got your daily reward\n⌚ Daily rewards reset at: {daily_job.next_run_time}", hidden=True)
+            await ctx.send(
+                f"⚠ You already got your daily reward\n⌚ Daily rewards reset at: {daily_job.next_run_time}",
+                hidden=True,
+            )
         else:
             current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
             more_coins = int(current_coins) + 250
@@ -59,7 +62,7 @@ class Misc(Cog):
                 f"⚠ You already got your weekly reward\n⌚ Weekly rewards reset at: {weekly_job.next_run_time}",
                 hidden=True,
             )
-            
+
         else:
             current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
             more_coins = int(current_coins) + 1000

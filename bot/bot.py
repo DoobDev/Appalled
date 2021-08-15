@@ -59,8 +59,12 @@ class Bot(Bot):
 
         self.scheduler = AsyncIOScheduler()
 
-        self.daily_job = self.scheduler.add_job(self.reset_daily, CronTrigger(hour=0), id="reset_daily")
-        self.weekly_job = self.scheduler.add_job(self.reset_weekly, CronTrigger(day=1), id="reset_weekly")
+        self.daily_job = self.scheduler.add_job(
+            self.reset_daily, CronTrigger(hour=0), id="reset_daily"
+        )
+        self.weekly_job = self.scheduler.add_job(
+            self.reset_weekly, CronTrigger(day=1), id="reset_weekly"
+        )
 
         super().__init__(
             command_prefix="/",
