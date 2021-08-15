@@ -98,13 +98,6 @@ class Bot(Bot):
 
         log.info("All cogs loaded!")
 
-        # if not config["dev_mode"]:
-        #     self.load_extension("cogs.topgg")
-        #     log.info("Loaded `topgg`")
-
-        # for cog in COGS:
-        #     self.load_extension(f'{cog}')
-
     def launch(self):
         _ = SlashCommand(self, sync_commands=True, sync_on_cog_reload=True)
         self.load_cogs()

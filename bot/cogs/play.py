@@ -14,9 +14,6 @@ log = logging.getLogger()
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-# TODO Implement coin betting
-
-
 class Play(Cog):
     def __init__(self, bot):
         self.bot = bot

@@ -1,5 +1,3 @@
-# from models.deck import Deck
-# from models.player import Player
 import asyncio
 import random
 from discord_slash import cog_ext
@@ -13,9 +11,7 @@ from discord_slash.model import ButtonStyle
 
 from cogs.db import collection as db
 
-# TODO Add buttons for `Hit/Stand`
 # TODO Make embeds.
-
 
 class Card:
     def __init__(self, value, suit):
@@ -220,11 +216,6 @@ class Blackjack:
 
             return 1
 
-        # if d_status == 1:
-        #     await self.dealer.show(ctx)
-        #     await ctx.send("Dealer has a blackjack!", hidden=True)
-        #     return 1
-
         bust = 0
 
         buttons = [
@@ -349,6 +340,3 @@ class Blackjack:
             await ctx.send(f"{ctx.author.name} wins.")
 
             await self.on_win(ctx)
-
-
-# b.play()
