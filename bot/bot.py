@@ -90,7 +90,7 @@ class Bot(Bot):
 
         for cog in COGS:
             if cog == "db":
-                continue
+                pass
 
             elif cog == "topgg" and not config["dev_mode"]:
                 self.load_extension("cogs.topgg")
