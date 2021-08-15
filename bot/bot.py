@@ -101,5 +101,7 @@ class Bot(Bot):
         log.info("Blackjack bot started!")
         self.run(os.environ.get("TOKEN"))
 
+    async def on_ready(self):
+        await self.change_presence(activity=discord.Game(name="Blackjack | /play | Check Appalled's Discord user bio!"))
 
 bot = Bot()
