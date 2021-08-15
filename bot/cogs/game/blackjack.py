@@ -11,7 +11,7 @@ from discord_slash.utils.manage_components import (
 )
 from discord_slash.model import ButtonStyle
 
-from db import collection as db
+from cogs.db import collection as db
 
 # TODO Add buttons for `Hit/Stand`
 # TODO Make embeds.

@@ -4,6 +4,7 @@ import json
 from glob import glob
 import logging
 from rich.logging import RichHandler
+from pathlib import Path
 
 from discord.ext.commands import AutoShardedBot as Bot
 from discord.ext.commands.errors import NoEntryPointError
@@ -14,11 +15,11 @@ from dotenv import load_dotenv
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from db import collection as db
+from cogs.db import collection as db
 
 
 load_dotenv()
-# COGS = [path.split(os.sep)[-1][:-3] for path in glob("./cogs/*.py")]
+COGS = [path.split(os.sep)[-1][:-3] for path in glob("../cogs/*.py")]
 
 with open("./config.json", "r") as config_file:
     config = json.load(config_file)
@@ -82,18 +83,24 @@ class Bot(Bot):
 
     def load_cogs(self):
         self.scheduler.start()
-        self.load_extension("create_user")
-        log.info("Loaded `create_user`")
-        self.load_extension("play")
-        log.info("Loaded `play`")
-        self.load_extension("profile")
-        log.info("Loaded `profile`")
-        self.load_extension("misc")
-        log.info("Loaded `misc`")
         
-        if not config["dev_mode"]:
-            self.load_extension("topgg")
-            log.info("Loaded `topgg`")
+        for cog in COGS:
+            if cog == "db":
+                continue
+            
+            elif cog == "topgg" and not config["dev_mode"]:
+                self.load_extension("cogs.topgg")
+                log.info(f"Loaded {cog}")
+                
+            else:
+                self.load_extension(f"cogs.{cog}")
+            log.info(f"Loaded {cog}")
+        
+        log.info("All cogs loaded!")
+        
+        # if not config["dev_mode"]:
+        #     self.load_extension("cogs.topgg")
+        #     log.info("Loaded `topgg`")
 
         # for cog in COGS:
         #     self.load_extension(f'{cog}')

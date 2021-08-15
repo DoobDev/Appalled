@@ -14,7 +14,7 @@ from discord_slash.utils.manage_components import (
 from discord_slash.utils.manage_commands import create_option
 import logging
 
-from db import collection as db
+from cogs.db import collection as db
 
 import json
 

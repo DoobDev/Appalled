@@ -4,8 +4,8 @@ from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 import logging
 
-from game.blackjack import Blackjack as b
-from db import collection as db
+from cogs.game.blackjack import Blackjack as b
+from cogs.db import collection as db
 
 import json
 

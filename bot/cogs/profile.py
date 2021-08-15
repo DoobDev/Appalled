@@ -16,7 +16,7 @@ import json
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-from db import collection as db
+from cogs.db import collection as db
 
 import logging
 
