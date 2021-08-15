@@ -14,6 +14,7 @@ log = logging.getLogger()
 with open("config.json") as config_file:
     config = json.load(config_file)
 
+
 class Play(Cog):
     def __init__(self, bot):
         self.bot = bot
