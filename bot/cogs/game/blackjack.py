@@ -13,6 +13,7 @@ from cogs.db import collection as db
 
 # TODO Make embeds.
 
+
 class Card:
     def __init__(self, value, suit):
         self.cost = value
