@@ -21,5 +21,6 @@ class servercount(commands.Cog):
         )  # Autopost will post your guild count every 30 minutes
         log.info("\nTop.gg updated\n")
 
+
 def setup(bot):
     bot.add_cog(servercount(bot))
