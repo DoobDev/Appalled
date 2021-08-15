@@ -90,7 +90,7 @@ class Bot(Bot):
         log.info("Loaded `profile`")
         self.load_extension("misc")
         log.info("Loaded `misc`")
-        
+
         if not config["dev_mode"]:
             self.load_extension("topgg")
             log.info("Loaded `topgg`")
