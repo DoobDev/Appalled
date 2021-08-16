@@ -131,6 +131,12 @@ class Misc(Cog):
                 f"✅ Code `{code}` redeemed!\n👛 +{int(code_amount)} coins!", hidden=True
             )
 
+        else:
+            await ctx.send(
+                "⚠ That code is not valid.",
+                hidden=True,
+            )
+
 
 def setup(bot):
     bot.add_cog(Misc(bot))
