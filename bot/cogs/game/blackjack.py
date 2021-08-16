@@ -149,6 +149,7 @@ class Blackjack:
     async def on_win(self, ctx):
         await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_level = db.find({"_id": ctx.author.id})[0]["Level"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
         exp_gain = exp + 150
@@ -156,13 +157,18 @@ class Blackjack:
         coins_gained = self.bet * 1.25
         coins += current_coins
 
+        level = int(((exp + 150) // 42) ** 0.55 + current_level)
+
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
+        
         await ctx.send(f"✨+150 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_player_blackjack(self, ctx):
         await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_level = db.find({"_id": ctx.author.id})[0]["Level"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
         exp_gain = exp + 250
@@ -170,29 +176,42 @@ class Blackjack:
         coins_gained = self.bet * 1.5
         coins += current_coins
 
+        level = int(((exp + 250) // 42) ** 0.55 + current_level)
+
+
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
+        
         await ctx.send(f"✨+250 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_lose(self, ctx):
         await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_level = db.find({"_id": ctx.author.id})[0]["Level"]
 
         exp_gain = exp + 50
+        level = int(((exp + 50) // 42) ** 0.55 + current_level)
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
+
         await ctx.send("✨+50 EXP", hidden=True)
 
     async def on_tie(self, ctx):
         await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
+        current_level = db.find({"_id": ctx.author.id})[0]["Level"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
 
         exp_gain = exp + 100
         coins = current_coins + self.bet
+        level = int(((exp + 50) // 42) ** 0.55 + current_level)
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})        
+        
         await ctx.send(
             f"✨+100 EXP\n👛Push! (Your bet [{self.bet}] has been returned to your balance.)",
             hidden=True,

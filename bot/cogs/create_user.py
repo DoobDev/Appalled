@@ -23,6 +23,7 @@ class Events(commands.Cog):
                     "UserID": ctx.author.id,
                     "Coins": 100,
                     "EXP": 0,
+                    "Level": 0,
                     "DailyReward": False,
                     "WeeklyReward": False,
                 }
