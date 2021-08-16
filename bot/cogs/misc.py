@@ -24,6 +24,7 @@ log = logging.getLogger()
 with open("config.json") as config_file:
     config = json.load(config_file)
 
+
 class Misc(Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -98,14 +99,25 @@ class Misc(Cog):
             db.update_one({"_id": user.id}, {"$set": {"Coins": amount}})
             await ctx.send(f"👛 Set {user.mention}'s Coins to {amount}", hidden=True)
 
-    @cog_ext.cog_slash(name="redeem", description="Redeem a special code for some extra coins!", options=[create_option(name="code", description="The code you would like to redeem", option_type=3, required=True)])
+    @cog_ext.cog_slash(
+        name="redeem",
+        description="Redeem a special code for some extra coins!",
+        options=[
+            create_option(
+                name="code",
+                description="The code you would like to redeem",
+                option_type=3,
+                required=True,
+            )
+        ],
+    )
     async def redeem_cmd(self, ctx: SlashContext, code: str):
         def read_json(filename):
             with open(f"./{filename}.json", "r") as file:
                 data = json.load(file)
             return data
 
-        codes = read_json('codes')
+        codes = read_json("codes")
 
         if code in codes:
             current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
@@ -115,7 +127,10 @@ class Misc(Cog):
 
             db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": amount}})
 
-            await ctx.send(f"✅ Code `{code}` redeemed!\n👛 +{int(code_amount)} coins!", hidden=True)
+            await ctx.send(
+                f"✅ Code `{code}` redeemed!\n👛 +{int(code_amount)} coins!", hidden=True
+            )
+
 
 def setup(bot):
     bot.add_cog(Misc(bot))
