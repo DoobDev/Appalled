@@ -147,7 +147,6 @@ class Blackjack:
         await ctx.send("**Results:**" + "\n" + description + desc2)
 
     async def on_win(self, ctx):
-        await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
         current_level = db.find({"_id": ctx.author.id})[0]["Level"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
@@ -163,10 +162,10 @@ class Blackjack:
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
 
+        await asyncio.sleep(0.6)
         await ctx.send(f"✨+150 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_player_blackjack(self, ctx):
-        await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
         current_level = db.find({"_id": ctx.author.id})[0]["Level"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
@@ -182,10 +181,10 @@ class Blackjack:
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
 
+        await asyncio.sleep(0.6)
         await ctx.send(f"✨+250 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_lose(self, ctx):
-        await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
         current_level = db.find({"_id": ctx.author.id})[0]["Level"]
 
@@ -195,10 +194,10 @@ class Blackjack:
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
 
+        await asyncio.sleep(0.6)
         await ctx.send("✨+50 EXP", hidden=True)
 
     async def on_tie(self, ctx):
-        await asyncio.sleep(0.6)
         exp = db.find({"_id": ctx.author.id})[0]["EXP"]
         current_level = db.find({"_id": ctx.author.id})[0]["Level"]
         current_coins = db.find({"_id": ctx.author.id})[0]["Coins"]
@@ -211,6 +210,7 @@ class Blackjack:
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
 
+        await asyncio.sleep(0.6)
         await ctx.send(
             f"✨+100 EXP\n👛Push! (Your bet [{self.bet}] has been returned to your balance.)",
             hidden=True,
