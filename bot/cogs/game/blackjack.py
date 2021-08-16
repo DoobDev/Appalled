@@ -162,7 +162,7 @@ class Blackjack:
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
-        
+
         await ctx.send(f"✨+150 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_player_blackjack(self, ctx):
@@ -178,11 +178,10 @@ class Blackjack:
 
         level = int(((exp + 250) // 42) ** 0.55 + current_level)
 
-
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
-        
+
         await ctx.send(f"✨+250 EXP\n👛+{int(coins_gained)} Coins", hidden=True)
 
     async def on_lose(self, ctx):
@@ -210,8 +209,8 @@ class Blackjack:
 
         db.update_one({"_id": ctx.author.id}, {"$set": {"EXP": exp_gain}})
         db.update_one({"_id": ctx.author.id}, {"$set": {"Coins": coins}})
-        db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})        
-        
+        db.update_one({"_id": ctx.author.id}, {"$set": {"Level": level}})
+
         await ctx.send(
             f"✨+100 EXP\n👛Push! (Your bet [{self.bet}] has been returned to your balance.)",
             hidden=True,
