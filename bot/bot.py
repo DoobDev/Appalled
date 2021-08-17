@@ -106,10 +106,11 @@ class Bot(Bot):
         _ = SlashCommand(self, sync_commands=True, sync_on_cog_reload=True)
         self.load_cogs()
 
-        log.info("Blackjack bot started!")
+        log.info("Appalled started!")
         self.run(os.environ.get("TOKEN"))
 
     async def on_ready(self):
+        log.info("Appalled ready!")
         await self.change_presence(
             activity=discord.Game(
                 name="Blackjack | /play | Check Appalled's Discord user bio!"
