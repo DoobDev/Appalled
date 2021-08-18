@@ -107,19 +107,24 @@ class Player:
             card_str + description + "\n" + "Score: " + str(self.score), hidden=True
         )
         return str(self.score)
-    
+
     async def first_show(self, ctx, dealer_cards):
         description = ""
         card_str = ""
-        card_str = (
-            f"**{ctx.author.name}'s hand:**\n"
-        )
+        card_str = f"**{ctx.author.name}'s hand:**\n"
         for i in self.cards:
             suit, value = await i.show(ctx)
             description += f"\n{suit} {value}"
 
         await ctx.send(
-            card_str + description + "\n" + "Score: " + str(self.score) + "\n\n" + dealer_cards, hidden=True
+            card_str
+            + description
+            + "\n"
+            + "Score: "
+            + str(self.score)
+            + "\n\n"
+            + dealer_cards,
+            hidden=True,
         )
         return str(self.score)
 
