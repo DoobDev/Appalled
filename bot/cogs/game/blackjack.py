@@ -107,6 +107,21 @@ class Player:
             card_str + description + "\n" + "Score: " + str(self.score), hidden=True
         )
         return str(self.score)
+    
+    async def first_show(self, ctx, dealer_cards):
+        description = ""
+        card_str = ""
+        card_str = (
+            f"**{ctx.author.name}'s hand:**\n"
+        )
+        for i in self.cards:
+            suit, value = await i.show(ctx)
+            description += f"\n{suit} {value}"
+
+        await ctx.send(
+            card_str + description + "\n" + "Score: " + str(self.score) + "\n\n" + dealer_cards, hidden=True
+        )
+        return str(self.score)
 
     async def show1_dealer(self, ctx):
         card_str = "**Dealer's hand:**\n"
@@ -114,7 +129,8 @@ class Player:
 
         suit, value = await card.show(ctx)
         card_str += f"\n{suit} {value}"
-        await ctx.send(card_str + "\n", hidden=True)
+        # await ctx.send(card_str + "\n", hidden=True)
+        return card_str + "\n"
 
     async def result(self, ctx):
         description = ""
@@ -220,8 +236,8 @@ class Blackjack:
         p_status = self.player.deal()
         d_status = self.dealer.deal()
 
-        await self.player.show(ctx)
-        await self.dealer.show1_dealer(ctx)
+        dealer_card = await self.dealer.show1_dealer(ctx)
+        await self.player.first_show(ctx, dealer_card)
 
         if p_status == 1:
             description = await self.player.result(ctx)
