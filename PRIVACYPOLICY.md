@@ -13,4 +13,4 @@ Nope!
 They can contact me, `mmatt#0001` on Discord, and `mmattbtw@pm.me` via email.
 
 5) **Where can I find everything that is stored in your DB?**
-You can't see our DB, however you can see everything that is potentially stored here: https://github.com/DoobDev/Appalled/blob/main/bot/create_user.py#L20
+You can't see our DB, however you can see everything that is potentially stored here: https://github.com/DoobDev/Appalled/blob/main/bot/cogs/create_user.py#L20
