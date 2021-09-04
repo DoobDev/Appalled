@@ -25,12 +25,13 @@ You start with 👛100 Coins, have fun!
 **[Just click here!](https://doob.link/AppalledInvite)**
 
 ## Can I buy Coins?
-* **NO ‼**
+* **NO**
 * There will be absolutely **NO WAY TO PAY FOR MORE COINS.**
 
 You can gain coins daily `/daily` or weekly `/weekly`.
 
 There will eventually be rewards for voting on Top.gg, but again, that will be free.
+
 
 ### `🙌` Code Contributors
 
