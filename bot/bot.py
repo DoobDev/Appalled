@@ -63,7 +63,7 @@ class Bot(Bot):
             self.reset_daily, CronTrigger(hour=0), id="reset_daily"
         )
         self.weekly_job = self.scheduler.add_job(
-            self.reset_weekly, CronTrigger(day=1), id="reset_weekly"
+            self.reset_weekly, CronTrigger(day_of_week=0), id="reset_weekly"
         )
 
         super().__init__(
