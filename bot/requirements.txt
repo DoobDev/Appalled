@@ -27,6 +27,6 @@ pymongo[srv] == 3.12.1
 python_dotenv == 0.19.2
 
 # C:\Users\notmm\blackjack\bot\bot.py: 6
-rich == 10.13.0
+rich == 10.14.0
 
 dblpy==0.4.0
