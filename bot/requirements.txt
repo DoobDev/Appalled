@@ -20,7 +20,7 @@ discord_timers == 0.1.0
 
 # C:\Users\notmm\blackjack\bot\create_user.py: 4
 # C:\Users\notmm\blackjack\bot\db.py: 1,2
-pymongo[srv] == 3.12.1
+pymongo[srv] == 4.0.1
 
 # C:\Users\notmm\blackjack\bot\bot.py: 12
 # C:\Users\notmm\blackjack\bot\db.py: 5
